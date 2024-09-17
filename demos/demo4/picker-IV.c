@@ -115,3 +115,24 @@ int main() {
   // Call the function pointer (jump to the address)
   foo();
 }
+
+/******************************
+ *
+ * @COMMANDS FOR GDB
+ * 
+ * 1. gdb ./picker-IV
+ * 2. info functions
+ *
+ * Now find something like:
+ * 0x..... win
+ * COPY THAT
+ *
+ * EXIT GDB
+ *
+ * NOW EXECUTE BINARY:
+ * ./picker-IV
+ *
+ * Paste the copied content to get flag
+ * 
+ *
+ ******************************/ 
