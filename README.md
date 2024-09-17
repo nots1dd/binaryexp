@@ -20,6 +20,27 @@ Here are some great websites/source material I have used in the past that have h
 4. **[Other random resources](https://github.com/W3rni0/W3rni0-awesome-resources)**
 5. **[Intro to buffer overflow](https://bugbase.ai/blog/introduction-to-binary-exploitation-exploiting-buffer-overflows)**
 
+## BASIC COMMANDS
+
+1. To compile C code: 
+
+```sh 
+gcc <name>.c 
+```
+
+2. To execute a binary (normally it is `a.out`): 
+
+```sh 
+./<name>
+```
+
+3. To use GDB:
+
+```sh 
+gdb ./<executable>
+```
+
+
 ## NOTES 
 
 Needless to say, any issues or additions that may feel is useful, you can always create an **[issue](https://github.com/nots1dd/binaryexp/issues)** or a **[PR](https://github.com/nots1dd/binaryexp/pulls)**
