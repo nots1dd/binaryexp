@@ -1,5 +1,17 @@
 # **Restricted Shell Escape - Exploitation Guide**  
 
+## **Building and Running**
+
+> [!IMPORTANT]
+> 
+> This should be run in project's root directory!
+> 
+
+```bash 
+make build-all 
+make run_env_var
+```
+
 ## **Overview**  
 This program implements a "restricted shell" that limits user commands to a predefined set. The purpose of such a system is to prevent unauthorized execution of arbitrary commands. However, due to improper handling of environment variables and command execution, it can be exploited to escape restrictions and execute arbitrary code.  
 

@@ -1,5 +1,17 @@
 # Understanding Unsafe Code in Rust: Vulnerabilities & Mitigations  
 
+## **Building and Running**
+
+> [!IMPORTANT]
+> 
+> This should be run in project's root directory!
+> 
+
+```bash 
+make build-all 
+make run_rust
+```
+
 ## Why Unsafe Code is Risky in Rust?  
 
 Rust provides strong memory safety guarantees, but `unsafe` code allows bypassing these protections. Misuse of `unsafe` can introduce vulnerabilities similar to C and C++, including:  

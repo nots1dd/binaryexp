@@ -1,55 +1,62 @@
-# Compiler and flags
-GCC := gcc
-CXX := g++
-CXXFLAGS := -Wall -Wextra -fno-stack-protector -z execstack
+CARGO := cargo
 
-RUSTC := rustc
-JAVAC := javac
-GO := go
 
-DEMO_DIR := demos
-CXX_SRC_DIR := $(DEMO_DIR)/cpp
-C_SRC_DIR := $(DEMO_DIR)/c
-RUST_SRC_DIR := $(DEMO_DIR)/rust
+C_DEMOS_BIN_DIR := demos/c
+CPP_DEMOS_BIN_DIR := demos/cpp
+RUST_SRC_DIR := demos/rust
+BUILD_DIR := build
+RUST_BIN := rust
+MAKE := make
+CMAKE := cmake
 
-# Source files
-C_SRC := $(C_SRC_DIR)/segfault.c
-CXX_SRC := $(CXX_SRC_DIR)/env_var.cpp
-RUST_SRC := $(RUST_SRC_DIR)/src/main.rs
-
-# Output binaries
-C_BIN := segfault
-CXX_BIN := env_var
-RUST_BIN := integer_overflow
+SEGFAULT_BIN := segfault 
+SYSTEM_BIN := system 
+SHM_VICTIM_BIN := victim
+SHM_EXPLOIT_BIN := exploit 
+ENV_VAR_BIN := env_var
 
 # Default target: Compile and run all
-all: build run
+all: build-all
 
 # Compile all programs
-build: $(C_BIN) $(CXX_BIN) $(RUST_BIN) $(JAVA_BIN) $(GO_BIN)
-
-$(C_BIN): $(C_SRC)
-	$(GCC) $(C_SRC) -o $(C_SRC_DIR)/$(C_BIN)
-
-# Compile C++ program
-$(CXX_BIN): $(CXX_SRC)
-	$(CXX) $(CXXFLAGS) -o $(CXX_SRC_DIR)/$(CXX_BIN) $<
+build-c-stuff:
+	$(CMAKE) -S . -B $(BUILD_DIR)
+	$(CMAKE) --build $(BUILD_DIR)
 
 # Compile Rust program
-$(RUST_BIN): $(RUST_SRC)
-	@cd $(RUST_SRC_DIR) && cargo build --release
+build-rust:
+	@cd $(RUST_SRC_DIR) && $(CARGO) build --release
 
-# Run all binaries
-run: run_cpp run_rust
-
-run_cpp:
-	@echo -e "-- [Running C++ binary: $(CXX_BIN)]"
-	./$(CXX_SRC_DIR)/$(CXX_BIN)
+build-all:
+	$(MAKE) build-c-stuff
+	$(MAKE) build-rust
 
 run_rust:
-	@echo -e "-- [Running Rust binary: $(RUST_BIN)]"
-	./$(RUST_BIN)
+	@echo -e "-- [Running Rust binary: $(RUST_BIN)]\n"
+	@cd $(RUST_SRC_DIR) && $(CARGO) run
+
+run_segfault:
+	@echo -e "-- [Running C binary: $(SEGFAULT_BIN)]\n"
+	@cd $(BUILD_DIR)/$(C_DEMOS_BIN_DIR)/ && ./$(SEGFAULT_BIN)
+
+run_system:
+	@echo -e "-- [Running C binary: $(SYSTEM_BIN)]\n"
+	@cd $(BUILD_DIR)/$(C_DEMOS_BIN_DIR)/ && ./$(SYSTEM_BIN)
+
+run_shm_victim:
+	@echo -e "-- [Running C binary: $(SHM_VICTIM_BIN)]\n"
+	@cd $(BUILD_DIR)/$(C_DEMOS_BIN_DIR)/ && ./$(SHM_VICTIM_BIN)
+
+run_shm_exploit:
+	@echo -e "-- [Running C binary: $(SHM_EXPLOIT_BIN)]\n"
+	@cd $(BUILD_DIR)/$(C_DEMOS_BIN_DIR)/ && ./$(SHM_EXPLOIT_BIN)
+
+run_env_var:
+	@echo -e "-- [Running C++ binary: $(ENV_VAR_BIN)]\n"
+	@cd $(BUILD_DIR)/$(CPP_DEMOS_BIN_DIR)/ && ./$(ENV_VAR_BIN)
 
 # Clean up binaries
 clean:
-	@rm -f $(C_SRC_DIR)/$(C_BIN) $(CXX_SRC_DIR)/$(CXX_BIN) $(RUST_SRC_DIR)/$(RUST_BIN)
+	@rm -rvf $(BUILD_DIR)
+	@cd $(RUST_SRC_DIR) && $(CARGO) clean
+	@echo -e "--> Cleaned up $(BUILD_DIR) and $(RUST_SRC_DIR)/target."
