@@ -25,6 +25,7 @@ build-c-stuff:
 
 # Compile Rust program
 build-rust:
+	@rustup default stable
 	@cd $(RUST_SRC_DIR) && $(CARGO) build --release
 
 build-all:
